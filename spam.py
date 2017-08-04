@@ -1,25 +1,23 @@
 import pandas as pd
-import string
-from collections import Counter
+from sklearn.feature_extraction.text import CountVectorizer
 
-#df = pd.read_table('~/python/udacity_mlnd/smsspamcollection/SMSSpamCollection',
-#                   sep='\t',
-#                   header=None,
-#                   names=['label', 'sms_message'])
-#df['label'] = df.label.map({'ham': 0, 'spam': 1})
+df = pd.read_table('~/python/udacity_mlnd/smsspamcollection/SMSSpamCollection',
+                   sep='\t',
+                   header=None,
+                   names=['label', 'sms_message'])
+df['label'] = df.label.map({'ham': 0, 'spam': 1})
 
-#print(df.shape)
-#print(df.head())
+print(df.shape)
+print(df.head())
 
 documents = ['Hello, how are you!',
              'Win money, win from home.',
              'Call me now.',
              'Hello, Call hello you tomorrow?']
 
-frequency_list = []
-for i in documents:
-    sans_punctiation = i.lower().translate(str.maketrans('', '', string.punctuation))
-    frequency_count = Counter(sans_punctiation.split(' '))
-    frequency_list.append(frequency_count)
-
-print(frequency_list)
+count_vector = CountVectorizer()
+count_vector.fit(documents)
+doc_array = count_vector.transform(documents).toarray()
+frequency_matrix = pd.DataFrame(doc_array,
+                                columns=count_vector.get_feature_names())
+print(frequency_matrix)
