@@ -16,29 +16,10 @@ documents = ['Hello, how are you!',
              'Call me now.',
              'Hello, Call hello you tomorrow?']
 
-lower_case_documents = []
-for i in documents:
-    lower_case_documents.append(i.lower())
-
-print(lower_case_documents)
-
-sans_punctuation = []
-
-for i in lower_case_documents:
-    sans_punctuation.append(i.translate(str.maketrans('', '', string.punctuation)))
-
-print(sans_punctuation)
-
-preprocessed_documents = []
-for i in sans_punctuation:
-    preprocessed_documents.append(i.split(' '))
-
-print(preprocessed_documents)
-
 frequency_list = []
-for i in preprocessed_documents:
-    frequency_count = Counter(i)
+for i in documents:
+    sans_punctiation = i.lower().translate(str.maketrans('', '', string.punctuation))
+    frequency_count = Counter(sans_punctiation.split(' '))
     frequency_list.append(frequency_count)
 
 print(frequency_list)
-
